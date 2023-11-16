@@ -6,20 +6,31 @@ describe("Funcionalidade página de produtos", () => {
   });
 
   it("Deve selecionar um produto da lista", () => {
-    cy.get('[class="product-block grid"]').eq(3).click();
+    cy.get('[class="product-block grid"]').contains('Beaumont Summit Kit').click();
   });
 
   it("Deve adicionar um produto ao carrinho", () => {
-    cy.get('[class="product-block grid"]').eq(3).click();
+    let quantidade = 10
+
+
+    cy.get('[class="product-block grid"]').contains('Beaumont Summit Kit').click();
     cy.get(".button-variable-item-L").click();
-    cy.get(".button-variable-item-Black").click();
-    cy.get(".input-text").clear().type(3);
+    cy.get(".button-variable-item-Orange").click();
+    cy.get(".input-text").clear().type(quantidade);
     cy.get(".single_add_to_cart_button").click();
 
-    cy.get(".dropdown-toggle > .mini-cart-items").should("contain", 3);
+    cy.get(".dropdown-toggle > .mini-cart-items").should("contain", quantidade);
     cy.get(".woocommerce-message").should(
       "contain",
-      "3 × “Bruno Compete Hoodie” foram adicionados no seu carrinho."
+      quantidade + " × “Beaumont Summit Kit” foram adicionados no seu carrinho."
     );
   });
+
+  it('Deve adicionar produtos ao carrinho - Usando comando customizado', () => {
+    cy.addProdutos('Frankie Sweatshirt', 'M', 'Green', 3)
+  })
+
+  it('Deve adicionar produtos ao carrinho - Usando comando customizado', () => {
+    cy.addProdutos('Geo Insulated Jogging Pant', '36', 'Red', 5)
+  })
 });
